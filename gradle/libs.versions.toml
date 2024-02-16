@@ -1,0 +1,46 @@
+[versions]
+agp = "8.4.0-alpha03"
+carousels = "1.0.7"
+circleimageview = "3.1.0"
+fragment = "1.3.6"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+lottie = "4.2.2"
+material = "1.11.0"
+activity = "1.8.2"
+constraintlayout = "2.1.4"
+materialdatetimepicker = "5.6.0"
+picasso = "2.71828"
+playServicesLocation = "21.0.1"
+volley = "1.2.1"
+swiperefreshlayout = "1.1.0"
+tensorflowLiteSupport = "0.1.0"
+tensorflowLiteMetadata = "0.1.0"
+tensorflowLiteGpu = "2.3.0"
+
+[libraries]
+carousels = { module = "androidx.carousels:carousels", version.ref = "carousels" }
+circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+materialdatetimepicker = { module = "com.github.wdullaer:materialdatetimepicker", version.ref = "materialdatetimepicker" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+volley = { module = "com.android.volley:volley", version.ref = "volley" }
+swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version.ref = "tensorflowLiteSupport" }
+tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
+tensorflow-lite-gpu = { group = "org.tensorflow", name = "tensorflow-lite-gpu", version.ref = "tensorflowLiteGpu" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+

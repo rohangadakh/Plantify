@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GetStartedActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/stock_1" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="80dp"
+        app:cardBackgroundColor="#61000000"
+        app:strokeColor="@android:color/transparent"
+        app:cardMaxElevation="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plantify"
+                android:id="@+id/txt_plantify"
+                app:elevation="80dp"
+                android:textColor="@color/white"
+                android:textSize="80sp"
+                android:gravity="center"
+                android:fontFamily="@raw/manrope_extra_bold"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Green Companion in Gardening- Bringing Nature Closer, One Leaf at a Time"
+                app:elevation="80dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_below="@+id/txt_plantify"
+                android:fontFamily="@raw/manrope_regular" />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>
