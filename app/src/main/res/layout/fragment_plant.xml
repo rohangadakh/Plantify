@@ -64,10 +64,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txt_result"
+
         android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
         android:visibility="gone"
         android:layout_below="@+id/btn_select_image"
         android:text="Result" />
+
+    <Button
+        android:id="@+id/btn_know_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_result"
+        android:gravity="center_horizontal"
+        android:text="Know More"
+        android:layout_marginTop="10dp"
+        android:visibility="gone" />
 
 </RelativeLayout>

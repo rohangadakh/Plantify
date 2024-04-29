@@ -21,6 +21,7 @@ tensorflowLiteMetadata = "0.1.0"
 tensorflowLiteGpu = "2.3.0"
 googleServices = "4.4.1"
 firebaseDatabase = "20.3.1"
+googleGmsGoogleServices = "4.4.1"
 
 [libraries]
 carousels = { module = "androidx.carousels:carousels", version.ref = "carousels" }
@@ -47,4 +48,5 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleGmsGoogleServices = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

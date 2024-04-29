@@ -11,10 +11,27 @@
         android:layout_marginTop="10dp"
         android:id="@+id/recyclerView" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/recyclerView"
+        android:id="@+id/dataRecyclerView" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:id="@+id/txtView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/txt_result" />
+
+
+
+
 
 </RelativeLayout>

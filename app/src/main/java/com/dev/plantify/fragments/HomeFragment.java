@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,8 +28,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.dev.plantify.Product;
 import com.dev.plantify.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +43,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment {
@@ -49,11 +57,17 @@ public class HomeFragment extends Fragment {
     private WeatherAdapter weatherAdapter;
     private String code;
     private String chance_of_rain = "1";
-    private int isday;
     private TextView txt_result;
+
+    private RecyclerView dataRecyclerView;
+    private TextView txt_data;
+    private ProductAdapter productAdapter;
+    private DatabaseReference databaseReference;
 
     public HomeFragment() {
         // Required empty public constructor
+        // Initialize Firebase database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("products");
     }
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -87,6 +101,10 @@ public class HomeFragment extends Fragment {
         weatherAdapter = new WeatherAdapter(weatherRvModelArrayList);
         recyclerView.setAdapter(weatherAdapter);
 
+        productAdapter = new ProductAdapter(new ArrayList<>());
+        dataRecyclerView = view.findViewById(R.id.dataRecyclerView);
+        dataRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dataRecyclerView.setAdapter(productAdapter);
 
         // Initialize locationManager
         locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
@@ -96,6 +114,8 @@ public class HomeFragment extends Fragment {
         } else {
             showLocationDialog(requireContext());
         }
+
+        retrieveDataFromFirebase();
 
         return view;
     }
@@ -239,7 +259,7 @@ public class HomeFragment extends Fragment {
                 String time = hour.getString("time");
                 String temp_c = hour.getString("temp_c");
                 double temp_f = hour.getDouble("temp_f");
-                isday = hour.getInt("is_day");
+                int isday = hour.getInt("is_day");
                 JSONObject condition = hour.getJSONObject("condition");
                 String txt = condition.getString("text");
                 String icn = condition.getString("icon");
@@ -248,7 +268,7 @@ public class HomeFragment extends Fragment {
                 weatherRvModelArrayList.add(new WeatherRvModel(time, temp_c, "https:"+icn, chance_of_rain));
             }
 
-                weatherAdapter.notifyDataSetChanged();
+            weatherAdapter.notifyDataSetChanged();
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -290,5 +310,31 @@ public class HomeFragment extends Fragment {
                 longitude = (longi);
             }
         }
+    }
+
+    private void retrieveDataFromFirebase() {
+        // Add listener for data changes
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Clear existing data
+                List<Product> products = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // Retrieve product data
+                    Product product = snapshot.getValue(Product.class);
+                    products.add(product);
+                }
+                Log.d("FirebaseData", "Number of products: " + products.size());
+                // Update RecyclerView with retrieved data
+                productAdapter.setProducts(products);
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
+                // Handle cancelled event
+            }
+
+        });
     }
 }

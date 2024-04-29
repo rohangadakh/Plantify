@@ -172,9 +172,32 @@ public class PlantFragment extends Fragment {
             }
 
             String[] classes = {"Tomato___Late_blight", "Strawberry___Leaf_scorch", "Grape___Black_rot", "Corn___Northern_Leaf_Blight"};
-            txt_result.setVisibility(View.VISIBLE);
-            txt_result.setText(classes[maxPos]);
 
+            // Display disease detection message and name
+            // Replace underscores with spaces in the disease names
+            String diseaseName = classes[maxPos].replace("_", " ");
+
+            // Display disease detection message and name
+            txt_result.setVisibility(View.VISIBLE);
+            txt_result.setText("Disease Detected: " + diseaseName);
+
+
+            // Show the "Know More" button
+            Button btnKnowMore = requireView().findViewById(R.id.btn_know_more);
+            btnKnowMore.setVisibility(View.VISIBLE);
+            btnKnowMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Open the ManageFragment when "Know More" button is clicked
+                    // Replace ManageFragment with the appropriate fragment you want to navigate to
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new ManageFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+
+            // Close the model
             model.close();
         } catch (Exception e) {
             Toast.makeText(requireContext(), e.toString(), Toast.LENGTH_SHORT).show();
