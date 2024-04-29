@@ -1,6 +1,7 @@
 package com.dev.plantify.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -86,6 +87,7 @@ public class HomeFragment extends Fragment {
         weatherAdapter = new WeatherAdapter(weatherRvModelArrayList);
         recyclerView.setAdapter(weatherAdapter);
 
+
         // Initialize locationManager
         locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
 
@@ -104,7 +106,7 @@ public class HomeFragment extends Fragment {
     }
 
     private static void showLocationDialog(final Context context) {
-        new MaterialAlertDialogBuilder(context)
+        new AlertDialog.Builder(context)
                 .setTitle("Location Services Required")
                 .setMessage("Please enable location services to use this feature.")
                 .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
@@ -121,13 +123,12 @@ public class HomeFragment extends Fragment {
                     }
                 })
                 .show();
-
     }
 
     private void getWeatherData() {
         getLocation();
 
-        String apiKey = "49644e7848474ac6b7c142929242901";
+        String apiKey = "157475c3ac704f07bdd182556242804";
 
         String url = "https://api.weatherapi.com/v1/forecast.json?key=" + apiKey + "&q=" + latitude + "," + longitude + "&days=1";
 
@@ -170,7 +171,6 @@ public class HomeFragment extends Fragment {
             return 0; // Handle the exception as needed
         }
     }
-
 
     private void parseWeatherData(String response) {
         try {

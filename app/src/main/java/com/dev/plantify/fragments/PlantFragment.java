@@ -34,6 +34,7 @@ public class PlantFragment extends Fragment {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 101;
     private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int GALLERY_REQUEST_CODE = 2;
 
     private int imageSize = 224;
     private TextView txt_result;
@@ -51,6 +52,14 @@ public class PlantFragment extends Fragment {
         txt_result = view.findViewById(R.id.txt_result);
         Button btn_detect = view.findViewById(R.id.btn_detect);
         ImageView img_result = view.findViewById(R.id.iv_image);
+        Button btn_select_image = view.findViewById(R.id.btn_select_image);
+
+        btn_select_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectImage();
+            }
+        });
 
         btn_detect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,20 +101,38 @@ public class PlantFragment extends Fragment {
         startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }
 
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
-            assert image != null;
-            int dimension = Math.min(image.getWidth(), image.getHeight());
-            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
-            ImageView imageView = requireView().findViewById(R.id.iv_image);
-            imageView.setImageBitmap(image);
-
-            image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
-            classifyImage(image);
+            processImage(image);
+        } else if (requestCode == GALLERY_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+            try {
+                if (data != null) {
+                    Bitmap image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                    processImage(image);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void processImage(Bitmap image) {
+        int dimension = Math.min(image.getWidth(), image.getHeight());
+        image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
+        ImageView imageView = requireView().findViewById(R.id.iv_image);
+        imageView.setImageBitmap(image);
+
+        image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
+        classifyImage(image);
     }
 
     private void classifyImage(Bitmap image) {
@@ -144,7 +171,7 @@ public class PlantFragment extends Fragment {
                 }
             }
 
-            String[] classes = {"Tomato healthy", "Tomato target spot", "Tomato spider mites two spotted spider mite", "Tomato late blight", "Tomato leaf mold", "Tomato sectorial leaf spot", "Tomato early blight", "Tomato bacterial spot", "Potato healthy", "Potato late blight", "Potato early blight", "Pepper bell healthy", "Pepper bell bacterial spot"};
+            String[] classes = {"Tomato___Late_blight", "Strawberry___Leaf_scorch", "Grape___Black_rot", "Corn___Northern_Leaf_Blight"};
             txt_result.setVisibility(View.VISIBLE);
             txt_result.setText(classes[maxPos]);
 
